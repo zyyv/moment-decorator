@@ -2,3 +2,12 @@ body {
   --uno: bg-light dark:bg-dark;
   --uno: text-dark-700 dark:text-light-700;
 }
+
+.hidden-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+
+.hidden-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
