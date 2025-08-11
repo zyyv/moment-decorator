@@ -9,7 +9,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Dark: typeof import('./components/Dark.vue')['default']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    Emulator: typeof import('./components/Emulator/index.vue')['default']
+    Phone: typeof import('./components/Emulator/Phone.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheHeader: typeof import('./components/TheHeader.vue')['default']
