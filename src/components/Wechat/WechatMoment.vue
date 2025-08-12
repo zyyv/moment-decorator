@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { WechatPost } from '~/types'
 import BackgroundImageDefault from '~/assets/images/background.jpg'
 
 withDefaults(defineProps<{
   scale?: number
+  post?: WechatPost
 }>(), {
   scale: 1,
 })
@@ -31,8 +33,8 @@ withDefaults(defineProps<{
 
       <!-- Moments -->
       <div mt-6>
-        <!-- Item -->
-        <WechatPostList />
+        <WechatPostItem v-if="post" :post="post" />
+        <WechatPostList v-else />
       </div>
     </div>
   </Phone>

@@ -5,6 +5,7 @@ export interface WechatUser {
 }
 
 export interface WechatPost {
+  id: string
   author: WechatUser
   content: string
   createdAt: Date

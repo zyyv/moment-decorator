@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import type { WechatPost } from '~/types'
+
+const props = defineProps<{ post?: WechatPost }>()
 const scale = ref(0.8)
 const MIN_SCALE = 0.3
 const MAX_SCALE = 2
@@ -99,7 +102,6 @@ onBeforeUnmount(() => {
         <div class="i-hugeicons:add-circle text-basecolor" />
       </button>
     </div>
-
-    <WechatMoment :scale="scale" />
+    <WechatMoment :scale="scale" :post="props.post" />
   </div>
 </template>

@@ -4,9 +4,7 @@
 
 <template>
   <TheHeader />
-  <main
-    px-4 py-10
-  >
+  <main px-5>
     <RouterView />
   </main>
 </template>

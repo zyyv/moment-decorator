@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useEditorStore } from '~/stores/editor'
+
+const editor = useEditorStore()
+const { current } = storeToRefs(editor)
 </script>
 
 <template>
-  <div flex gap-6>
-    <section flex-1>
-      <div>
-        <Emulator />
-      </div>
+  <div class="grid gap-6 md:grid-cols-2">
+    <section>
+      <WechatForm v-model="current" />
+    </section>
+
+    <section>
+      <Emulator />
     </section>
   </div>
 </template>

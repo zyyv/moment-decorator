@@ -15,6 +15,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheHeader: typeof import('./components/TheHeader.vue')['default']
+    WechatForm: typeof import('./components/Wechat/WechatForm.vue')['default']
     WechatImages: typeof import('./components/Wechat/WechatImages.vue')['default']
     WechatMoment: typeof import('./components/Wechat/WechatMoment.vue')['default']
     WechatPostItem: typeof import('./components/Wechat/WechatPostItem.vue')['default']
