@@ -52,10 +52,18 @@ const ImagesList = [
   'https://images.unsplash.com/photo-1754430544331-0b2d98edaf2a',
 ]
 
+function optimizeUrl(url: string) {
+  // Only append if no existing query
+  if (url.includes('?'))
+    return url
+  // Downscale to 512px width with reasonable quality
+  return `${url}?w=512&auto=format&q=70`
+}
+
 function randomImages() {
   // 0 - 9
   const count = Math.floor(Math.random() * 10)
-  return Array.from({ length: count }, () => ImagesList[Math.floor(Math.random() * ImagesList.length)])
+  return Array.from({ length: count }, () => optimizeUrl(ImagesList[Math.floor(Math.random() * ImagesList.length)]))
 }
 
 export const posts: WechatPost[] = users.map(user => ({

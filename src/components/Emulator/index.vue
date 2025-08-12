@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const scale = ref(1)
+const scale = ref(0.8)
 const MIN_SCALE = 0.3
 const MAX_SCALE = 2
 
@@ -24,10 +24,16 @@ function startHold(action: 'inc' | 'dec') {
   action === 'inc' ? addScale() : reduceScale()
   // accelerate while holding
   let velocity = 0.01
-  const tick = () => {
-    // ease up to a higher speed but keep precise steps
-    velocity = Math.min(0.05, Number((velocity + 0.002).toFixed(3)))
-    action === 'inc' ? addScale(velocity) : reduceScale(velocity)
+  let last = performance.now()
+  const tick = (now: number) => {
+    const dt = now - last
+    // throttle to ~60fps minimum spacing (about every 16ms)
+    if (dt >= 16) {
+      last = now
+      // ease up to a higher speed but keep precise steps
+      velocity = Math.min(0.05, Number((velocity + 0.002).toFixed(3)))
+      action === 'inc' ? addScale(velocity) : reduceScale(velocity)
+    }
     holdRAF = requestAnimationFrame(tick)
   }
   // small delay to distinguish click vs hold
@@ -53,10 +59,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div relative flex justify-center items-center bg-light-700 bg-op-90 dark:bg-dark-900 dark:bg-op-30 rd-2xl>
+  <div relative flex flex-col justify-center items-center bg-light-700 bg-op-90 dark:bg-dark-900 dark:bg-op-30 rd-2xl>
     <!-- Scale Controls -->
     <div
-      class="absolute top-4 right-4 flex items-center gap-2 px-2.5 py-1.5 rd-full bg-light-700 bg-op-60 dark:bg-dark-900 dark:bg-op-40 backdrop-blur-6 border border-dark-700 dark:border-light-700 border-op-10 shadow-sm"
+      class="flex items-center gap-2 px-2.5 py-1.5 rd-full bg-light-700 bg-op-60 dark:bg-dark-900 dark:bg-op-40 backdrop-blur-6 border border-dark-700 dark:border-light-700 border-op-10 shadow-sm"
     >
       <!-- Decrease -->
       <button

@@ -21,7 +21,7 @@ watchEffect((onCleanup) => {
 </script>
 
 <template>
-  <div :style="{ transform: `scale(${scale})` }" class="w-112.5 px-6 aspect-[450/920] flex justify-center items-center relative">
+  <div :style="{ transform: `translateZ(0) scale(${scale})`, willChange: 'transform', transformOrigin: 'top center' }" class="w-112.5 px-6 aspect-[450/920] flex justify-center items-center relative">
     <div class="bg-white w-full aspect-[402/874] rd-12.5 relative of-hidden">
       <!-- Status Bar -->
       <div class="w-full h-15.5" p="x4 y5.25" flex items-center justify-between absolute top-0 z-100>

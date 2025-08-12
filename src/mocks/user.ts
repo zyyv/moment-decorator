@@ -37,4 +37,4 @@ function generateUser(count: number) {
   return users
 }
 
-export const users: WechatUser[] = generateUser(10)
+export const users: WechatUser[] = generateUser(5)
