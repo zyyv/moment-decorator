@@ -9,4 +9,23 @@ export default defineConfig({
   transformers: [
     transformerDirectives(),
   ],
+  theme: {
+    colors: {
+      wechat: {
+        name: '#6a7a96',
+      },
+    },
+    text: {
+      md: {
+        fontSize: '0.9375rem',
+        lineHeight: '1.375rem',
+      },
+    },
+  },
+  shortcuts: {
+    'text-basecolor': 'text-dark-700 dark:text-light-700',
+    'fill-basecolor': 'fill-dark-700 dark:fill-light-700',
+    'stroke-basecolor': 'stroke-dark-700 dark:stroke-light-700',
+    'bg-basecolor': 'bg-light dark:bg-dark',
+  },
 })

@@ -10,9 +10,16 @@ declare module 'vue' {
   export interface GlobalComponents {
     Dark: typeof import('./components/Dark.vue')['default']
     Emulator: typeof import('./components/Emulator/index.vue')['default']
-    Phone: typeof import('./components/Emulator/Phone.vue')['default']
+    Moment: typeof import('./components/Wechat/Moment.vue')['default']
+    Phone: typeof import('./components/Phone.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheHeader: typeof import('./components/TheHeader.vue')['default']
+    WechatImages: typeof import('./components/Wechat/WechatImages.vue')['default']
+    WechatMoment: typeof import('./components/Wechat/WechatMoment.vue')['default']
+    WechatPostItem: typeof import('./components/Wechat/WechatPostItem.vue')['default']
+    WechatPostList: typeof import('./components/Wechat/WechatPostList.vue')['default']
+    WechatStatusBar: typeof import('./components/Wechat/WechatStatusBar.vue')['default']
+    WechatTextContent: typeof import('./components/Wechat/WechatTextContent.vue')['default']
   }
 }

@@ -1,6 +1,5 @@
 body {
-  --uno: bg-light dark:bg-dark;
-  --uno: text-dark-700 dark:text-light-700;
+  --uno: bg-basecolor text-basecolor;
 }
 
 .hidden-scroll {
