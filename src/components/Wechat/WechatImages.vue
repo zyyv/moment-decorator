@@ -39,13 +39,14 @@ const images = computed({
   >
     <img
       v-for="(image, index) in post.images"
-      :key="index"
+      :key="`${image}-${index}`"
       :src="image"
       loading="lazy"
       decoding="async"
-      :fetchpriority="index === 0 ? 'high' : 'auto'"
+      :fetchpriority="index === 0 ? 'high' : 'low'"
       object-cover
       :class="colNum > 1 ? 'aspect-square' : 'max-w-60%'"
+      :style="{ 'content-visibility': 'auto' }"
     >
   </VueDraggable>
 </template>

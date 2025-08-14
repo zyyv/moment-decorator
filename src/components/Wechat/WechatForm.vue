@@ -38,10 +38,15 @@ watch(
   },
 )
 
+// 使用防抖优化表单更新性能
+const debouncedEmit = useDebounceFn(() => {
+  emit('update:modelValue', post)
+}, 100)
+
 watch(
   () => post,
-  () => emit('update:modelValue', post),
-  { deep: true },
+  () => debouncedEmit(),
+  { deep: true, flush: 'post' }, // 使用 flush: 'post' 减少更新频率
 )
 
 // 归一化 createdAt（防止为字符串）

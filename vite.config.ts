@@ -18,6 +18,30 @@ export default defineConfig({
     },
   },
 
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['vue', 'vue-router', 'pinia'],
+          utils: ['@vueuse/core'],
+        },
+      },
+    },
+    cssCodeSplit: true,
+    cssMinify: 'lightningcss',
+  },
+
+  // 开发服务器优化
+  server: {
+    fs: {
+      strict: false,
+    },
+  },
+
+  optimizeDeps: {
+    include: ['vue', 'vue-router', 'pinia', '@vueuse/core', 'vue-draggable-plus'],
+  },
+
   plugins: [
     Vue(),
 

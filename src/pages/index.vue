@@ -56,5 +56,8 @@ const { posts } = storeToRefs(postsStore)
     <section h-full of-auto no-scrollbar b="~ dashed green:50" bg-green bg-op-10 dark:bg-op-5 rd-xl>
       <Emulator />
     </section>
+
+    <!-- 性能监控 -->
+    <PerformanceMonitor />
   </div>
 </template>

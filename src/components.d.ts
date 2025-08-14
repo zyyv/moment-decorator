@@ -15,6 +15,7 @@ declare module 'vue' {
     Dark: typeof import('./components/Dark.vue')['default']
     Demo: typeof import('./components/Accordion/Demo.vue')['default']
     Emulator: typeof import('./components/Emulator/index.vue')['default']
+    PerformanceMonitor: typeof import('./components/PerformanceMonitor.vue')['default']
     Phone: typeof import('./components/Phone.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

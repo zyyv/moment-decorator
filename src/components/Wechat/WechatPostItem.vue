@@ -12,6 +12,8 @@ defineProps<{
       class="size-11 rounded-md"
       :src="post.author.avatar"
       alt="Avatar"
+      loading="lazy"
+      decoding="async"
     >
     <div flex-1>
       <h5 text-md fw-400 text-wechat-name>
