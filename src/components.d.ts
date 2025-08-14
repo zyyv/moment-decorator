@@ -14,6 +14,7 @@ declare module 'vue' {
     Phone: typeof import('./components/Phone.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ScaleControl: typeof import('./components/Emulator/ScaleControl.vue')['default']
     TheHeader: typeof import('./components/TheHeader.vue')['default']
     WechatForm: typeof import('./components/Wechat/WechatForm.vue')['default']
     WechatImages: typeof import('./components/Wechat/WechatImages.vue')['default']

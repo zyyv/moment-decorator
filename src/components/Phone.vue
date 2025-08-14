@@ -22,7 +22,11 @@ watchEffect((onCleanup) => {
 
 <template>
   <div
-    :style="{ transform: `translateZ(0) scale(${scale})`, willChange: 'transform', transformOrigin: 'center top' }"
+    :style="{
+      transform: `translateZ(0) scale(${scale})`,
+      willChange: 'transform',
+      transformOrigin: 'center center',
+    }"
     class="w-112.5 px-6 aspect-[450/920] flex justify-center items-center relative"
   >
     <div class="bg-white w-full aspect-[402/874] rd-12.5 relative of-hidden">
@@ -47,7 +51,7 @@ watchEffect((onCleanup) => {
         </div>
       </div>
       <!-- Slot Content -->
-      <div of-x-hidden of-y-auto class="hidden-scroll" h-full bg-basecolor pb-6.8>
+      <div of-x-hidden of-y-auto class="no-scrollbar" h-full bg-basecolor pb-6.8>
         <slot />
       </div>
       <!-- Home Indicator -->

@@ -1,3 +1,4 @@
+import { symbols } from '@unocss/core'
 import { defineConfig, presetAttributify, presetIcons, presetWind4, transformerDirectives } from 'unocss'
 
 export default defineConfig({
@@ -22,6 +23,22 @@ export default defineConfig({
       },
     },
   },
+  rules: [
+    [
+      'no-scrollbar',
+      [
+        {
+          'scrollbar-width': 'none',
+          '-ms-overflow-style': 'none',
+        },
+        {
+          [symbols.selector]: (s: string) => `${s}::-webkit-scrollbar`,
+          display: 'none',
+        } as any,
+      ],
+      { autocomplete: 'no-(scrollbar)' },
+    ],
+  ],
   shortcuts: {
     'text-basecolor': 'text-dark-700 dark:text-light-700',
     'fill-basecolor': 'fill-dark-700 dark:fill-light-700',

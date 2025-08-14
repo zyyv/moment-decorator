@@ -11,7 +11,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <Phone :scale="scale">
+  <Phone :scale>
     <div w-full>
       <!-- Mask -->
       <div w-full h-75 bg-cover :style="{ backgroundImage: `url(${BackgroundImageDefault})` }" />

@@ -26,6 +26,9 @@ const colNum = computed(() => Number(gridCols.value.split('-')[2]) || 1)
       v-for="(image, index) in props.post.images"
       :key="index"
       :src="image"
+      loading="lazy"
+      decoding="async"
+      :fetchpriority="index === 0 ? 'high' : 'auto'"
       object-cover
       :class="colNum > 1 ? 'aspect-square' : 'max-w-60%'"
     >
