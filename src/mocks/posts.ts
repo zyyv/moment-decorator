@@ -1,5 +1,5 @@
 import type { WechatPost } from '~/types'
-import { users } from './user'
+import { generateUser } from './user'
 
 function randomPostContent() {
   const contents = [
@@ -58,10 +58,14 @@ function randomImages() {
   return Array.from({ length: count }, () => ImagesList[Math.floor(Math.random() * ImagesList.length)])
 }
 
-export const posts: WechatPost[] = users.map(user => ({
-  id: crypto.randomUUID().slice(0, 8), // Generate a random ID
-  author: user,
-  content: randomPostContent(),
-  createdAt: randomDate(),
-  images: randomImages(),
-})).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+export function generatePosts(count: number = 5): WechatPost[] {
+  const users = generateUser(count)
+
+  return users.map(user => ({
+    id: crypto.randomUUID().slice(0, 8), // Generate a random ID
+    author: user,
+    content: randomPostContent(),
+    createdAt: randomDate(),
+    images: randomImages(),
+  })).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+}

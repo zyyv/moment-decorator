@@ -25,7 +25,7 @@ function randomBio() {
   return bios[Math.floor(Math.random() * bios.length)]
 }
 
-function generateUser(count: number) {
+export function generateUser(count: number) {
   const users: WechatUser[] = []
   for (let i = 0; i < count; i++) {
     users.push({
@@ -36,5 +36,3 @@ function generateUser(count: number) {
   }
   return users
 }
-
-export const users: WechatUser[] = generateUser(5)

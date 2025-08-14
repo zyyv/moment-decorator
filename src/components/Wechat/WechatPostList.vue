@@ -1,5 +1,8 @@
 <script lang='ts' setup>
-import { posts } from '~/mocks'
+import { storeToRefs } from 'pinia'
+
+const postsStore = usePostsStore()
+const { posts } = storeToRefs(postsStore)
 </script>
 
 <template>
