@@ -1,40 +1,40 @@
 <script lang="ts" setup>
 import type { WechatPost, WechatUser } from '~/types'
+import { deepClone } from '~/utils/clone'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   modelValue?: WechatPost
-}>()
+  readOnly?: boolean
+}>(), {
+  readOnly: false,
+})
 
 const emit = defineEmits<{
   'update:modelValue': [value: WechatPost]
   'submit': [value: WechatPost]
 }>()
 
-function defaultUser(): WechatUser {
-  return {
-    name: 'Chris',
-    avatar: 'https://avatars.githubusercontent.com/u/42139754?v=4',
-    bio: 'Regardless of the past, do not ask the future.',
-  }
-}
-
-function defaultPost(): WechatPost {
-  return {
-    id: crypto.randomUUID().slice(0, 8), // Generate a random ID
-    author: defaultUser(),
-    content: '',
-    createdAt: new Date(),
-    images: [],
-  }
-}
-
-const post = reactive<WechatPost>(props.modelValue ? structuredClone(props.modelValue) : defaultPost())
+// 初始化：若未提供 modelValue，则内部生成一个空白结构（不再使用 defaultPost 方法）
+const post = reactive<WechatPost>(props.modelValue
+  ? deepClone(props.modelValue)
+  : {
+      id: crypto.randomUUID().slice(0, 8),
+      author: {
+        name: 'Chris',
+        avatar: 'https://avatars.githubusercontent.com/u/42139754?v=4',
+        bio: 'Regardless of the past, do not ask the future.',
+      } as WechatUser,
+      content: '',
+      createdAt: new Date(),
+      images: [],
+    },
+)
 
 watch(
   () => props.modelValue,
   (val) => {
     if (val)
-      Object.assign(post, structuredClone(val))
+      Object.assign(post, deepClone(val))
   },
 )
 
@@ -44,7 +44,19 @@ watch(
   { deep: true },
 )
 
-// datetime-local helpers
+// 归一化 createdAt（防止为字符串）
+watch(
+  () => post.createdAt,
+  (v) => {
+    if (!(v instanceof Date)) {
+      const t = new Date(v as any)
+      post.createdAt = Number.isNaN(t.getTime()) ? new Date() : t
+    }
+  },
+  { immediate: true },
+)
+
+// datetime-local 双向绑定
 const createdAtLocal = computed({
   get() {
     const d = post.createdAt ?? new Date()
@@ -136,20 +148,20 @@ function submit() {
         </legend>
         <div class="grid gap-2 md:grid-cols-[1fr_auto] items-center">
           <label class="text-sm op-80">昵称</label>
-          <input v-model="post.author.name" class="md:col-start-1 md:col-end-3 px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none" placeholder="昵称">
+          <input v-model="post.author.name" :disabled="readOnly" :readonly="readOnly" class="md:col-start-1 md:col-end-3 px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none disabled:op-60" placeholder="昵称">
         </div>
         <div class="grid gap-2 md:grid-cols-[1fr_auto] items-center">
           <label class="text-sm op-80">头像</label>
           <div class="flex items-center gap-2">
-            <input v-model="post.author.avatar" class="flex-1 px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none" placeholder="头像 URL">
-            <label class="px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 cursor-pointer text-sm">选择文件
+            <input v-model="post.author.avatar" :disabled="readOnly" :readonly="readOnly" class="flex-1 px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none disabled:op-60" placeholder="头像 URL">
+            <label v-if="!readOnly" class="px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 cursor-pointer text-sm">选择文件
               <input type="file" accept="image/*" class="hidden" @change="onAvatarFile">
             </label>
           </div>
         </div>
         <div>
           <label class="text-sm op-80">签名</label>
-          <textarea v-model="post.author.bio" rows="3" class="w-full mt-1 px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none" placeholder="个性签名" />
+          <textarea v-model="post.author.bio" rows="3" :disabled="readOnly" :readonly="readOnly" class="w-full mt-1 px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none disabled:op-60" placeholder="个性签名" />
         </div>
       </fieldset>
 
@@ -158,7 +170,7 @@ function submit() {
         <legend class="text-basecolor fw-600">
           内容
         </legend>
-        <textarea v-model="post.content" rows="6" class="w-full px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none" placeholder="说点什么..." />
+        <textarea v-model="post.content" rows="6" :disabled="readOnly" :readonly="readOnly" class="w-full px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none disabled:op-60" placeholder="说点什么..." />
       </fieldset>
 
       <!-- Time -->
@@ -166,7 +178,7 @@ function submit() {
         <legend class="text-basecolor fw-600">
           时间
         </legend>
-        <input v-model="createdAtLocal" type="datetime-local" class="px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none">
+        <input v-model="createdAtLocal" type="datetime-local" :disabled="readOnly" :readonly="readOnly" class="px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none disabled:op-60">
       </fieldset>
 
       <!-- Images -->
@@ -174,7 +186,7 @@ function submit() {
         <legend class="text-basecolor fw-600">
           图片
         </legend>
-        <div class="flex items-center gap-2">
+        <div v-if="!readOnly" class="flex items-center gap-2">
           <input v-model="urlInput" class="flex-1 px-3 py-2 rd border border-dark-700 dark:border-light-700 border-op-15 bg-transparent text-basecolor outline-none" placeholder="图片 URL">
           <button type="button" class="px-3 py-2 rd bg-dark-700 bg-op-10 dark:bg-light-700 dark:bg-op-10 text-basecolor hover:bg-op-15 active:scale-97 transition" @click="addImageUrl">
             添加
@@ -189,14 +201,13 @@ function submit() {
         <div v-if="post.images.length" class="grid grid-cols-3 gap-2 pt-1">
           <div v-for="(img, i) in post.images" :key="`${img}-${i}`" class="relative">
             <img :src="img" alt="" class="w-full aspect-square object-cover rd">
-            <button type="button" class="absolute top-1 right-1 size-6 rd-full grid place-items-center bg-dark/60 text-white hover:bg-dark/80" @click="removeImage(i)">
+            <button v-if="!readOnly" type="button" class="absolute top-1 right-1 size-6 rd-full grid place-items-center bg-dark/60 text-white hover:bg-dark/80" @click="removeImage(i)">
               <div class="i-hugeicons:xmark" />
             </button>
           </div>
         </div>
       </fieldset>
-
-      <div class="pt-2">
+      <div v-if="!readOnly" class="pt-2">
         <button type="submit" class="px-4 py-2 rd bg-wechat-name text-white hover:bg-wechat-name/90 active:scale-98 transition">
           生成
         </button>
