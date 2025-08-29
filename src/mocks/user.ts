@@ -1,6 +1,6 @@
 import type { WechatUser } from '../types'
 
-function randomAvatar() {
+export function randomAvatar() {
   const randomNum = Math.random().toString().slice(2, 10)
   return `https://avatars.githubusercontent.com/u/${randomNum}?v=4`
 }

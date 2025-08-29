@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 import { generatePosts } from '~/mocks/posts'
 
 export const usePostsStore = defineStore('posts', () => {
-  const posts = ref<WechatPost[]>(generatePosts(5))
+  const defaultPostLength = 5
+  const posts = ref<WechatPost[]>(generatePosts(defaultPostLength))
 
   function addPost(post: WechatPost) {
     posts.value.push(post)
@@ -13,5 +14,13 @@ export const usePostsStore = defineStore('posts', () => {
     posts.value = posts.value.filter(p => p.id !== post.id)
   }
 
-  return { posts, addPost, removePost }
+  function resetPosts() {
+    posts.value = generatePosts(defaultPostLength)
+  }
+
+  function clearPosts() {
+    posts.value = []
+  }
+
+  return { posts, addPost, removePost, resetPosts, clearPosts }
 })

@@ -14,9 +14,14 @@ const { posts } = storeToRefs(postsStore)
         <h2 class="text-lg font-semibold">
           Posts ({{ posts.length }})
         </h2>
-        <button class="text-xs op-70 hover:op-100" @click="postsStore.posts = [] as any">
-          清空
-        </button>
+        <div flex="~ items-center gap-2">
+          <button class="text-sm op-70 hover:op-100 cursor-pointer" @click="postsStore.resetPosts">
+            <div i-hugeicons:refresh />
+          </button>
+          <button class="text-sm op-70 hover:op-100 cursor-pointer" @click="postsStore.clearPosts">
+            <div i-hugeicons:cancel-01 />
+          </button>
+        </div>
       </div>
       <div class="p-4">
         <div v-if="!posts.length" class="p-6 text-center text-sm op-60">
@@ -45,7 +50,7 @@ const { posts } = storeToRefs(postsStore)
               <div class="i-hugeicons:chevron-down text-base ml-2 op-60 group-data-[state=open]:rotate-180 transition-transform" />
             </AccordionTrigger>
             <AccordionContent class="p-0 bg-transparent">
-              <WechatForm :model-value="p" read-only class="!shadow-none !bg-transparent" />
+              <WechatForm :model-value="p" class="!shadow-none !bg-transparent" />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

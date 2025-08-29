@@ -1,5 +1,5 @@
 import type { WechatPost } from '~/types'
-import { generateUser } from './user'
+import { generateUser, randomAvatar } from './user'
 
 function randomPostContent() {
   const contents = [
@@ -55,7 +55,8 @@ const ImagesList = [
 function randomImages() {
   // 0 - 9
   const count = Math.floor(Math.random() * 10)
-  return Array.from({ length: count }, () => ImagesList[Math.floor(Math.random() * ImagesList.length)])
+  // return Array.from({ length: count }, () => ImagesList[Math.floor(Math.random() * ImagesList.length)])
+  return Array.from({ length: count }, () => randomAvatar())
 }
 
 export function generatePosts(count: number = 5): WechatPost[] {
