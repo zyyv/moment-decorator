@@ -1,4 +1,7 @@
+:root {
+  /* interpolate-size: allow-keywords; */
+}
+
 body {
   --uno: bg-basecolor text-basecolor;
 }
-

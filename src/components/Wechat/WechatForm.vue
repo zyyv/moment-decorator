@@ -207,7 +207,7 @@ function submit() {
           <div v-for="(img, i) in post.images" :key="`${img}-${i}`" class="relative">
             <img :src="img" alt="" class="w-full aspect-square object-cover rd">
             <button v-if="!readOnly" type="button" class="absolute top-1 right-1 size-6 rd-full grid place-items-center bg-dark/60 text-white hover:bg-dark/80" @click="removeImage(i)">
-              <div class="i-hugeicons:xmark" />
+              <div class="i-hugeicons:cancel-01" />
             </button>
           </div>
         </div>

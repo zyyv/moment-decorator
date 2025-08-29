@@ -6,12 +6,19 @@ export const usePostsStore = defineStore('posts', () => {
   const defaultPostLength = 5
   const posts = ref<WechatPost[]>(generatePosts(defaultPostLength))
 
-  function addPost(post: WechatPost) {
-    posts.value.push(post)
+  function addPost(post?: WechatPost) {
+    if (!post) {
+      post = generatePosts(1)[0]
+    }
+    safelyStartViewTransition(() => {
+      posts.value.push(post)
+    })
   }
 
   function removePost(post: WechatPost) {
-    posts.value = posts.value.filter(p => p.id !== post.id)
+    safelyStartViewTransition(() => {
+      posts.value = posts.value.filter(p => p.id !== post.id)
+    })
   }
 
   function resetPosts() {

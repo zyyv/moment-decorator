@@ -4,6 +4,15 @@ import { storeToRefs } from 'pinia'
 // Posts store
 const postsStore = usePostsStore()
 const { posts } = storeToRefs(postsStore)
+
+// 弹窗控制
+const showModal = ref(false)
+const selectedPost = ref<any>(null)
+
+function openModal(post: any) {
+  selectedPost.value = post
+  showModal.value = true
+}
 </script>
 
 <template>
@@ -27,33 +36,58 @@ const { posts } = storeToRefs(postsStore)
         <div v-if="!posts.length" class="p-6 text-center text-sm op-60">
           暂无内容，先生成一条吧~
         </div>
-        <Accordion v-else type="multiple" class="space-y-3 bg-transparent divide-y-0">
-          <AccordionItem
+        <div v-else class="space-y-3">
+          <div
             v-for="p in posts"
             :key="p.id"
-            :value="p.id"
+            :view-transition-name="`post-${p.id}`"
+            class="group cursor-pointer !py-3 px-4 flex items-center gap-3 text-left hover:bg-gray/6 dark:hover:bg-white/5 rounded-lg transition-opacity duration-3000"
           >
-            <AccordionTrigger class="!no-underline !py-3 px-4 flex items-start gap-3 text-left">
-              <div flex="~ items-center gap-2">
-                <img
-                  :src="p.author.avatar" class="size-12 rd-full object-cover" loading="lazy"
-                  decoding="async" alt="avatar"
-                >
-                <div class="flex flex-col gap-2">
-                  <span class="text-sm fw-600 text-wechat-name">{{ p.author.name }}</span>
-                  <span class="text-[10px] op-60">{{ useDateFormat(p.createdAt, 'YYYY-MM-DD HH:mm').value }}</span>
-                </div>
+            <div flex="~ items-center gap-2" flex-shrink-0>
+              <img
+                :src="p.author.avatar" class="size-12 rd-full object-cover" loading="lazy"
+                decoding="async" alt="avatar"
+              >
+              <div class="flex flex-col gap-2">
+                <span class="text-sm fw-600 text-wechat-name">{{ p.author.name }}</span>
+                <span class="text-[10px] op-60">{{ useDateFormat(p.createdAt, 'YYYY-MM-DD HH:mm').value }}</span>
               </div>
-              <p class="mt-4 text-sm line-clamp-2 op-70 whitespace-pre-line">
-                {{ p.content }}
-              </p>
-              <div class="i-hugeicons:chevron-down text-base ml-2 op-60 group-data-[state=open]:rotate-180 transition-transform" />
-            </AccordionTrigger>
-            <AccordionContent class="p-0 bg-transparent">
-              <WechatForm :model-value="p" class="!shadow-none !bg-transparent" />
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+            </div>
+            <p class="text-sm flex-1 line-clamp-2 op-70 whitespace-pre-line">
+              {{ p.content }}
+            </p>
+            <div op-0 group-hover:op-100 transition-opacity @click.stop="postsStore.removePost(p)">
+              <div class="i-hugeicons:cancel-01 text-base ml-2 op-80" />
+            </div>
+          </div>
+          <hr>
+          <!-- <div
+            v-for="p in posts"
+            :key="p.id"
+            class="group post cursor-pointer !py-3 px-4 flex items-center gap-3 text-left hover:bg-gray/6 dark:hover:bg-white/5 rounded-lg"
+            @click="openModal(p)"
+          >
+            <div flex="~ items-center gap-2" flex-shrink-0>
+              <img
+                :src="p.author.avatar" class="size-12 rd-full object-cover" loading="lazy"
+                decoding="async" alt="avatar"
+              >
+              <div class="flex flex-col gap-2">
+                <span class="text-sm fw-600 text-wechat-name">{{ p.author.name }}</span>
+                <span class="text-[10px] op-60">{{ useDateFormat(p.createdAt, 'YYYY-MM-DD HH:mm').value }}</span>
+              </div>
+            </div>
+            <p class="text-sm flex-1 line-clamp-2 op-70 whitespace-pre-line">
+              {{ p.content }}
+            </p>
+            <div op-0 group-hover:op-100 transition-opacity @click.stop="postsStore.removePost(p)">
+              <div class="i-hugeicons:cancel-01 text-base ml-2 op-80" />
+            </div>
+          </div> -->
+        </div>
+        <div>
+          <div class="i-hugeicons:add-01 text-base ml-2 op-60" @click="() => postsStore.addPost()" />
+        </div>
       </div>
     </section>
 
@@ -64,5 +98,23 @@ const { posts } = storeToRefs(postsStore)
 
     <!-- 性能监控 -->
     <PerformanceMonitor />
+
+    <!-- 弹窗 -->
+    <Modal v-model="showModal" title="编辑朋友圈">
+      <WechatForm v-if="selectedPost" :model-value="selectedPost" />
+    </Modal>
   </div>
 </template>
+
+<style scoped>
+.post {
+  /* height: auto;
+  opacity: 1;
+  transition: opacity 0.5s, height 0.5s;
+
+  @starting-style{
+    height: 0;
+    opacity: 0;
+  } */
+}
+</style>
